@@ -27,7 +27,7 @@ pub fn get_variables(input: &str, prefix: &str) -> Vec<String> {
 ///!```
 /// use std::collections::HashMap;
 /// use simple_replace_templete_engine::render;
-/// 
+///
 /// let map = {
 ///     let mut map = HashMap::new();
 ///     map.insert("name".to_owned(), "me".to_owned());
@@ -62,21 +62,25 @@ pub fn render(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     #[test]
     fn test_get_variable() {
+        use crate::get_variables;
         let vars = get_variables("hello _t_name_t_", "_t_");
         assert_eq!(vars, vec!["name".to_owned()]);
     }
     #[test]
     fn test_replace() {
+        use crate::render;
         use std::collections::HashMap;
-        const PREFIX: &'static str = "_t_";
-        let mut map = HashMap::new();
-        map.insert("name".to_owned(), "me".to_owned());
+
+        let map = {
+            let mut map = HashMap::new();
+            map.insert("name".to_owned(), "me".to_owned());
+            map
+        };
         let templete_str = "hello _t_name_t_".to_owned();
 
-        let ret = render(&templete_str, PREFIX, &map).unwrap();
+        let ret = render(&templete_str, "_t_", &map).unwrap();
         assert_eq!(ret, "hello me".to_owned());
     }
 }
