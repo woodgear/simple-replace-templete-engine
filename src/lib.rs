@@ -53,7 +53,8 @@ pub fn render(
 
     let mut input = input.to_string();
     for n in need_names.iter() {
-        let regex = Regex::new(&format!(r#"(?m){}[^\s]*{}"#, prefix, prefix)).unwrap();
+        let regex_str = format!(r#"(?m){}{}{}"#, prefix, n, prefix);
+        let regex = Regex::new(&regex_str).unwrap();
         let replace_str = map.get(n).unwrap();
         input = regex.replace_all(&input, replace_str.as_str()).to_string();
     }
@@ -76,11 +77,12 @@ mod tests {
         let map = {
             let mut map = HashMap::new();
             map.insert("name".to_owned(), "me".to_owned());
+            map.insert("sec_name".to_owned(), "you".to_owned());
             map
         };
-        let templete_str = "hello _t_name_t_".to_owned();
+        let templete_str = "hello _t_name_t_ _t_sec_name_t_"_.to_owned();
 
         let ret = render(&templete_str, "_t_", &map).unwrap();
-        assert_eq!(ret, "hello me".to_owned());
+        assert_eq!(ret, "hello me you".to_owned());
     }
 }
