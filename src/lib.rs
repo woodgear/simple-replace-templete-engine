@@ -80,7 +80,7 @@ mod tests {
             map.insert("sec_name".to_owned(), "you".to_owned());
             map
         };
-        let templete_str = "hello _t_name_t_ _t_sec_name_t_"_.to_owned();
+        let templete_str = "hello _t_name_t_ _t_sec_name_t_".to_owned();
 
         let ret = render(&templete_str, "_t_", &map).unwrap();
         assert_eq!(ret, "hello me you".to_owned());
